@@ -1,6 +1,8 @@
+import 'dart:developer';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:rive_animation/screens/entryPoint/entry_point.dart';
-import 'package:rive_animation/screens/onboding/onboding_screen.dart';
+import 'package:rive/rive.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,10 +17,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'The Flutter Way',
       theme: ThemeData(
-        scaffoldBackgroundColor: Color(0xFFEEF1F8),
+        scaffoldBackgroundColor: const Color(0xFFEEF1F8),
         primarySwatch: Colors.blue,
         fontFamily: "Intel",
-        inputDecorationTheme: InputDecorationTheme(
+        inputDecorationTheme: const InputDecorationTheme(
           filled: true,
           fillColor: Colors.white,
           errorStyle: TextStyle(height: 0),
@@ -28,15 +30,54 @@ class MyApp extends StatelessWidget {
           errorBorder: defaultInputBorder,
         ),
       ),
-      home: const OnbodingScreen(),
+      home: const OnBoardingScreen(),
+    );
+  }
+
+  static const defaultInputBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.all(Radius.circular(16)),
+    borderSide: BorderSide(
+      color: Color(0xFFDEE3F2),
+      width: 1,
+    ),
+  );
+}
+
+class OnBoardingScreen extends StatefulWidget {
+  const OnBoardingScreen({super.key});
+
+  @override
+  State<OnBoardingScreen> createState() => _OnBoardingScreenState();
+}
+
+class _OnBoardingScreenState extends State<OnBoardingScreen> {
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
+    log(size.height.toString());
+    log(size.width.toString());
+    return SafeArea(
+      child: Scaffold(
+        body: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Positioned(
+                width: 200,
+                height: 200,
+                left: size.width * 1.5,
+                child: Image.asset("assets/Backgrounds/Spline.png")),
+            RiveAnimation.asset("assets/RiveAssets/shapes.riv"),
+            // Positioned.fill(
+            //     child: BackdropFilter(
+            //   filter: ImageFilter.blur(
+            //     sigmaX: 20,
+            //     sigmaY: 10,
+            //   ),
+            //   child: SizedBox(),
+            // )),
+          ],
+        ),
+      ),
     );
   }
 }
-
-const defaultInputBorder = OutlineInputBorder(
-  borderRadius: BorderRadius.all(Radius.circular(16)),
-  borderSide: BorderSide(
-    color: Color(0xFFDEE3F2),
-    width: 1,
-  ),
-);
